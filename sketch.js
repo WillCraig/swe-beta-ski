@@ -38,8 +38,8 @@ function drawBackground() {
 // this hash will contain the various obstacles generated, their position, etc
 worldMatrix = []
 
-spawn_rate = 0.1; // percentage chance of generating an enemy
-obstacle_rate = spawn_rate; // percentage chance of generating an obstacle
+spawn_rate = 0.1; // percentage chance of generating an enemy or obstacle
+obstacle_rate = 0.75; // percentage chance of generating an obstacle
 
 // this function will generate the next column of obstacles, enemies, etc and place it in the world matrix
 // it will be guaranteed to check against placing two items in the same space
@@ -47,7 +47,7 @@ function generateNextColumn() {
   for (i = 0; i < map_y; i++) {
     spawn = Math.random() <= spawn_rate;
     if (spawn) {
-      type = (Math.random() <= 0.5) ? 'enemy' : 'obstacle';
+      type = (Math.random() <= obstacle_rate) ? 'obstacle' : 'enemy';
       worldMatrix.push({
         x: map_x,
         y: i,
@@ -67,7 +67,6 @@ function drawEntity(entity) {
   x_y = mapToGraphics(entity.x, entity.y);
   x = x_y[0]; y = x_y[1];
   
-  
   if (entity.type == 'enemy') {
     stroke('red');
   } else if (entity.type == 'obstacle') {
@@ -76,12 +75,17 @@ function drawEntity(entity) {
     stroke('black');
   }
   
-  rect(x, y, sprite_w, sprite_h);
+  if (entity.type != "player") { // player does not move
+    entity.graphic -= (sprite_w / tick_rate);
+  }
+    
+  rect(entity.graphic, y, sprite_w, sprite_h);
 }
 
 player = {
     x: Math.floor(map_x / 2),
     y: Math.floor(map_y / 2), // place the player in roughly the middle, always
+  graphic: mapToGraphics(Math.floor(map_x / 2),0)[0],
     type: 'player'
   };
 
@@ -104,6 +108,8 @@ function doPhysics() {
   for (var i = 0; i < worldMatrix.length; i++) {
     entity = worldMatrix[i];
     entity.x -= 1;
+    entity.graphic = mapToGraphics(entity.x ,0)[0];
+    
     if (entity.x < 0) {
       worldMatrix.splice(i, 1); // removes the entity seamlessly
       console.log("removed entity");
@@ -134,8 +140,8 @@ function draw() {
     pauseMenu();
   } else {
     if (current_tick > tick_rate) {
-      doPhysics();
       generateNextColumn();
+      doPhysics();
       current_tick = 0;      
     }
 
