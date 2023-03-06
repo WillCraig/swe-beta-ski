@@ -11,12 +11,15 @@ function startMenu() {}
 // the function that will draw the pause menu
 function pauseMenu() {
   background(0);
+  textSize(32);
+  fill('white');
+  text('Paused', canvas_x / 2, canvas_y / 2);
 }
 
 map_x = 25; // the number of columns
 map_y = 8; // the number of rows
 
-canvas_x = 400;
+canvas_x = 800;
 canvas_y = 400; // the dimensions of the game
                 // make sure these are divisible by their respective map_x and map_y
 
@@ -108,6 +111,7 @@ function doPhysics() {
   for (var i = 0; i < worldMatrix.length; i++) {
     entity = worldMatrix[i];
     entity.x -= 1;
+    
     entity.graphic = mapToGraphics(entity.x ,0)[0];
     
     if (entity.x < 0) {
@@ -154,8 +158,7 @@ function draw() {
 
 function keyPressed() {
   if (key == ' ') {
-    currentlyPlaying = !currentPlaying; // for now toggles between ticking and not ticking the game
-    // TODO it doesn't toggle back
+    currentlyPlaying = !currentlyPlaying; // for now toggles between ticking and not ticking the game
   }
   
   if (key == 's') {
