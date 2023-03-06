@@ -47,7 +47,7 @@ obstacle_rate = 0.75; // percentage chance of generating an obstacle
 // this function will generate the next column of obstacles, enemies, etc and place it in the world matrix
 // it will be guaranteed to check against placing two items in the same space
 function generateNextColumn() {
-  for (i = 0; i < map_y; i++) {
+  for (let i = 0; i < map_y; i++) {
     spawn = Math.random() <= spawn_rate;
     if (spawn) {
       type = (Math.random() <= obstacle_rate) ? 'obstacle' : 'enemy';
@@ -94,7 +94,7 @@ player = {
 
 // renders the world matrix using actual assests or colored blocks or whatever
 function drawWorld() {
-  for (var i = 0; i < worldMatrix.length; i++) {
+  for (let i = 0; i < worldMatrix.length; i++) {
     drawEntity(worldMatrix[i]);
   }
   
@@ -108,13 +108,13 @@ didThePlayerLose = false; // this is a hack but i don't feel like debugging it r
 // gravity, etc
 // ensures the proper handling of collisions
 function doPhysics() {
-  for (var i = 0; i < worldMatrix.length; i++) {
+  for (let i = 0; i < worldMatrix.length; i++) {
     entity = worldMatrix[i];
     entity.x -= 1;
     
     entity.graphic = mapToGraphics(entity.x ,0)[0];
     
-    if (entity.x < 0) {
+    if (entity.x < -5) {
       worldMatrix.splice(i, 1); // removes the entity seamlessly
       console.log("removed entity");
     }
