@@ -16,7 +16,7 @@ function pauseMenu() {
   text('Paused', canvas_x / 2, canvas_y / 2);
 }
 
-map_x = 25; // the number of columns
+map_x = 16; // the number of columns
 map_y = 8; // the number of rows
 
 canvas_x = 800;
