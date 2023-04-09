@@ -1,2 +1,3 @@
-# kent-bouncer
-Kent P5JS sample application
+# Beta Ski
+Software project for Kent State University's Software Engineering class.
+
