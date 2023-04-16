@@ -1,13 +1,14 @@
+let lanes = [100, 300, 500];
+
 class Obstacle{
   constructor(){
-    this.b = 50;
-    this.x = 150;
-    this.y = 50;
+    this.b = 20; // size
+    this.x = lanes[Math.floor(Math.random()*lanes.length)] // randonly choosing the lane
+    this.y = 20; // height
   }
   
   move(){
-    
-    this.y -= 3;
+    this.y += 3;
   }
   
   display(){
