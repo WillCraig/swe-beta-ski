@@ -13,6 +13,11 @@ function changeScore(amt){
   score = score + 1; // Here, I modified the score to change once evertime a circle is completely off of the screen.
 }
 
+//sets the score
+function setStartScore(){
+  score = 0;
+}
+
 function setup() {
   createCanvas(600, 500);
   instruction = 0;
@@ -116,7 +121,7 @@ function startGame(){
   text(score, 540, 40);
   startButton.hide();
   instructionsButton.hide();
-  
+  setStartScore();
 }
 
 function loseScreen() {
