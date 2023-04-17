@@ -10,7 +10,7 @@ var score = 0;
 
 //changes the score
 function changeScore(amt){
-  score = score + amt;
+  score = score + 1; // Here, I modified the score to change once evertime a circle is completely off of the screen.
 }
 
 function setup() {
@@ -55,7 +55,7 @@ function instructions(){
   
 }
 
-//score on the top right needs to be fix a little
+// score on the top right needs to be fix a little
 function Score(){ 
     rect(460, 15, 90, 30);
     textSize(30);
@@ -100,6 +100,7 @@ function draw() {
         var index = rocks.indexOf(rock);
         if (index !== -1) {
           rocks.splice(index, 1);
+          changeScore(1);
         }
       }
     }
@@ -139,7 +140,7 @@ function keyPressed(){
   // player can move rectangle left and right w/ arrow keys
   
   if (keyCode === RIGHT_ARROW || keyCode === 68) {
-    changeScore(50)
+    //changeScore(50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
     if(recX==490){
       recX += 0;
     }else if(recX==290){
@@ -151,7 +152,7 @@ function keyPressed(){
   
   if (keyCode === LEFT_ARROW || keyCode === 65) {
     //console.log(recX);
-    changeScore(-50)
+    //changeScore(-50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
     if(recX==90){
       recX +=0;
       keyCode = -1;
