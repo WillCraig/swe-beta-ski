@@ -1,23 +1,13 @@
 var recX = 290;
-let instruction; // used to navigate between menu, game and lost screen. 0=menu, 1=game, 3=game over screen
-let startButton; // the stat button in the start menu
+let instruction;        // used to navigate between menu, game and lost screen. 0=menu, 1=game, 3=game over screen
+let startButton;        // the stat button in the start menu
 let instructionsButton; // the instructions button in the start menu
-let restartButton; // the restart button in the game over screen
-let rocks; // list that will be randomly populated with obstacles during the game
+let restartButton;      // the restart button in the game over screen
+let rocks;              // list that will be randomly populated with obstacles during the game
 let isRestart;
-
 var score = 0;
 
-//changes the score
-function changeScore(amt){
-  score = score + 1; // Here, I modified the score to change once evertime a circle is completely off of the screen.
-}
-
-//sets the score
-function setStartScore(){
-  score = 0;
-}
-
+// Game setup
 function setup() {
   createCanvas(600, 500);
   instruction = 0;
@@ -35,13 +25,23 @@ function setup() {
 
 }
 
-function restart(){
+// changes the score
+function changeScore(amt) {
+  score = score + 1; 
+}
+
+// sets the score
+function setStartScore() {
+  score = 0;
+}
+
+function restart() {
   instruction=1;
   setup();
   restartButton.hide();
 }
 
-function startMenu(){
+function startMenu() {
   // the menu for the start and instructions button
   background(50, 55, 100);
   textSize(20);
@@ -49,7 +49,7 @@ function startMenu(){
   text('Press the start button to begin the game', 110, 200);
 }
 
-function instructions(){
+function instructions() {
   // instructions page
   instruction = 4;
   background(50, 55, 100);
@@ -61,7 +61,7 @@ function instructions(){
 }
 
 // score on the top right needs to be fix a little
-function Score(){ 
+function Score() { 
     rect(460, 15, 90, 30);
     textSize(30);
     text(score, 500, 40);
@@ -71,37 +71,39 @@ function draw() {
   
   clear();
   
-  if(instruction == 4){
+  if(instruction == 4) {
     instructions();
   }
-  if(instruction==0){
+
+  if(instruction==0) {
     // load the menu
     startMenu();
   }
-  else if(instruction==1){
+
+  else if(instruction==1) {
     clear();
     // start the game
     background(220);
     Score();
     line(200, 0, 200, height);
     line(400, 0, 400, height);
-    
     stroke(126);
     
-    // dimensions of rect
-    rect(recX, height-60, 24, 24); // the moving character
+    // dimensions of rect (which is our sprite for now)
+    rect(recX, height-60, 24, 24);
     
-    if(random(1)<0.005){ // randomly filling the rocks list
+    // fill the rocks list randomly
+    if(random(1)<0.005) { 
       rocks.push(new Obstacle());
     }
     
-    for(let rock of rocks){
+    for(let rock of rocks) {
       rock.move();
       rock.display();
-      if(rock.y == height-60 && rock.x == recX+10){
+      if(rock.y == height - 60 && rock.x == recX + 10){
          instruction = 3;
          }
-      if(rock.y>500){ // removing rocks no longer on screen to free up memory
+      if(rock.y > 500) { // removing rocks no longer on screen to free up memory
         var index = rocks.indexOf(rock);
         if (index !== -1) {
           rocks.splice(index, 1);
@@ -110,13 +112,12 @@ function draw() {
       }
     }
   }
-  else if(instruction==3){
+  else if(instruction==3) {
     loseScreen();
-
   }
 }
 
-function startGame(){
+function startGame() {
   instruction=1;
   text(score, 540, 40);
   startButton.hide();
@@ -130,7 +131,7 @@ function loseScreen() {
     fill(255, 255, 255);
     textSize(60);
     text("Game Over", 130,200);
-    if(!isRestart){
+    if(!isRestart) {
       restartButton = createButton('Restart');
       isRestart = true;
     }
@@ -140,17 +141,15 @@ function loseScreen() {
   
 }
 
-function keyPressed(){
+function keyPressed() {
   
   // player can move rectangle left and right w/ arrow keys
-  
   if (keyCode === RIGHT_ARROW || keyCode === 68) {
-    //changeScore(50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
-    if(recX==490){
+    if (recX == 490) {
       recX += 0;
-    }else if(recX==290){
+    }else if(recX == 290) {
       recX = 490;
-    }else if(recX==90){
+    }else if(recX == 90) {
       recX = 290;
     }
   }
@@ -158,14 +157,13 @@ function keyPressed(){
   if (keyCode === LEFT_ARROW || keyCode === 65) {
     //console.log(recX);
     //changeScore(-50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
-    if(recX==90){
-      recX +=0;
+    if (recX == 90) {
+      recX += 0;
       keyCode = -1;
-    }else if(recX==290){
+    }else if(recX == 290) {
       recX = 90;
       keyCode = -1;
-    }
-    else if(recX==490){
+    }else if(recX == 490) {
       recX = 290;
       keyCode = -1;
     }
