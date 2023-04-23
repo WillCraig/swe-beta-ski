@@ -96,11 +96,16 @@ function draw() {
     if(random(1)<0.02) { 
       rocks.push(new Obstacle());
     }
+
+    console.log(height-60);
     
     for(let rock of rocks) {
       rock.move();
       rock.display();
-      if(rock.y == height - 60 && rock.x == recX + 10){
+      console.log("new rock");
+      console.log(rock.y);
+
+      if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == recX + 10){
          instruction = 3;
          }
       if(rock.y > 500) { // removing rocks no longer on screen to free up memory
