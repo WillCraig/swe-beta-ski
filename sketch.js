@@ -93,7 +93,7 @@ function draw() {
     rect(recX, height-60, 24, 24);
     
     // fill the rocks list randomly
-    if(random(1)<0.005) { 
+    if(random(1)<0.02) { 
       rocks.push(new Obstacle());
     }
     
