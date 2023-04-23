@@ -6,6 +6,9 @@ let restartButton;      // the restart button in the game over screen
 let rocks;              // list that will be randomly populated with obstacles during the game
 let isRestart;
 var score = 0;
+let rightButton;
+let leftButton;
+let startButtonInstructions;
 
 // Game setup
 function setup() {
@@ -16,12 +19,17 @@ function setup() {
   startButton = createButton('Start');
   startButton.position(250, 250);
   startButton.mousePressed(startGame);//
+
+  startButtonInstructions = createButton('Start');
+  startButtonInstructions.hide();
   
   instructionsButton = createButton('Instructions');
   instructionsButton.position(230, 280);
   instructionsButton.mousePressed(instructions);
 
   isRestart = false;
+  rightButton = loadImage('assets/right.png');
+  leftButton = loadImage('assets/left.png');
 
 }
 
@@ -53,10 +61,31 @@ function instructions() {
   // instructions page
   instruction = 4;
   background(50, 55, 100);
-  textSize(20);
+  textSize(15);
   fill(255, 255, 255);
-  text('Move the  object using the left and right arrows to avoid obstacles', 15, 200);
+  text('Move the object using the left and right arrows to avoid obstacles', 70, 200);
   instructionsButton.hide();
+  startButton.hide();
+
+  startButtonInstructions.show();
+  startButtonInstructions.position(250, 350);
+  startButtonInstructions.mousePressed(startGame);//
+
+  image(rightButton, 300, 250);
+  rightButton.resize(50, 0);
+
+  image(leftButton, 200, 250);
+  leftButton.resize(48, 0);
+
+  textSize(15);
+  fill(255, 255, 255);
+  text('Move Left', 190, 320);
+
+  textSize(15);
+  fill(255, 255, 255);
+  text('Move Right', 290, 320);
+
+
   
 }
 
@@ -123,6 +152,7 @@ function draw() {
 }
 
 function startGame() {
+  startButtonInstructions.hide();
   instruction=1;
   text(score, 540, 40);
   startButton.hide();
