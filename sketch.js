@@ -55,6 +55,7 @@ function startMenu() {
   textSize(20);
   fill(255, 255, 255);
   text('Press the start button to begin the game', 110, 200);
+  snow();
 }
 
 function instructions() {
@@ -117,6 +118,19 @@ function draw() {
     line(200, 0, 200, height);
     line(400, 0, 400, height);
     stroke(126);
+
+    let t = frameCount / 60; // update time
+
+    // create a random number of snowflakes each frame
+    for (let i = 0; i < random(5); i++) {
+      snowflakes.push(new snowflake()); // append snowflake object
+    }
+
+    // loop through snowflakes with a for..of loop
+    for (let flake of snowflakes) {
+      flake.update(t); // update snowflake position
+      flake.display(); // draw snowflake
+    }
     
     // dimensions of rect (which is our sprite for now)
     rect(recX, height-60, 24, 24);
