@@ -11,6 +11,7 @@ let leftButton;
 let startButtonInstructions;
 let blurTimer = 0;
 let ghostTimer = 0;
+let blureff;
 
 // Game setup
 function setup() {
@@ -33,6 +34,8 @@ function setup() {
   rightButton = loadImage('assets/right.png');
   leftButton = loadImage('assets/left.png');
   ghost = loadImage('assets/ghost.png');
+
+  blureff = false;
 
 }
 
@@ -127,6 +130,7 @@ function draw() {
     if(blurTimer>60 && blurTimer<100){
       if(ghostTimer>0){
         drawingContext.filter = 'blur(12px)';
+        blureff = true;
       }else{
         instruction = 5;
       }
@@ -140,16 +144,19 @@ function draw() {
     }
     let t = frameCount / 60; // update time
 
-    // create a random number of snowflakes each frame
-    for (let i = 0; i < random(5); i++) {
-      snowflakes.push(new snowflake()); // append snowflake object
+    if(blureff == false){
+      // create a random number of snowflakes each frame
+      for (let i = 0; i < random(0.01); i++) {
+        snowflakes.push(new snowflake()); // append snowflake object
+      }
+
+      // loop through snowflakes with a for..of loop
+      for (let flake of snowflakes) {
+        flake.update(t); // update snowflake position
+        flake.display(); // draw snowflake
+      }
     }
 
-    // loop through snowflakes with a for..of loop
-    for (let flake of snowflakes) {
-      flake.update(t); // update snowflake position
-      flake.display(); // draw snowflake
-    }
 
     // dimensions of rect (which is our sprite for now)
     rect(recX, height-60, 24, 24);
