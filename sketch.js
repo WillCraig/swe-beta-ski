@@ -6,6 +6,11 @@ let restartButton;      // the restart button in the game over screen
 let rocks;              // list that will be randomly populated with obstacles during the game
 let isRestart;
 var score = 0;
+let rightButton;
+let leftButton;
+let startButtonInstructions;
+let blurTimer = 0;
+let ghostTimer = 0;
 
 // Game setup
 function setup() {
@@ -16,12 +21,18 @@ function setup() {
   startButton = createButton('Start');
   startButton.position(250, 250);
   startButton.mousePressed(startGame);//
+
+  startButtonInstructions = createButton('Start');
+  startButtonInstructions.hide();
   
   instructionsButton = createButton('Instructions');
   instructionsButton.position(230, 280);
   instructionsButton.mousePressed(instructions);
 
   isRestart = false;
+  rightButton = loadImage('assets/right.png');
+  leftButton = loadImage('assets/left.png');
+  ghost = loadImage('assets/ghost.png');
 
 }
 
@@ -44,6 +55,7 @@ function restart() {
 function startMenu() {
   // the menu for the start and instructions button
   background(50, 55, 100);
+  
   textSize(20);
   fill(255, 255, 255);
   text('Press the start button to begin the game', 110, 200);
@@ -53,10 +65,31 @@ function instructions() {
   // instructions page
   instruction = 4;
   background(50, 55, 100);
-  textSize(20);
+  textSize(15);
   fill(255, 255, 255);
-  text('Move the  object using the left and right arrows to avoid obstacles', 15, 200);
+  text('Move the object using the left and right arrows to avoid obstacles', 70, 200);
   instructionsButton.hide();
+  startButton.hide();
+
+  startButtonInstructions.show();
+  startButtonInstructions.position(250, 350);
+  startButtonInstructions.mousePressed(startGame);//
+
+  image(rightButton, 300, 250);
+  rightButton.resize(50, 0);
+
+  image(leftButton, 200, 250);
+  leftButton.resize(48, 0);
+
+  textSize(15);
+  fill(255, 255, 255);
+  text('Move Left', 190, 320);
+
+  textSize(15);
+  fill(255, 255, 255);
+  text('Move Right', 290, 320);
+
+
   
 }
 
@@ -83,24 +116,45 @@ function draw() {
   else if(instruction==1) {
     clear();
     // start the game
+    blurTimer += 0.1;
     background(220);
     Score();
     line(200, 0, 200, height);
     line(400, 0, 400, height);
     stroke(126);
+
+    if(blurTimer>60 && blurTimer<100){
+      if(ghostTimer>0){
+        drawingContext.filter = 'blur(12px)';
+      }else{
+        instruction = 5;
+      }
+      
+    }
+
+    if(blurTimer>100){
+      blurTimer = -100;
+      drawingContext.filter = 'blur(0px)';
+      ghostTimer = 0;
+    }
     
     // dimensions of rect (which is our sprite for now)
     rect(recX, height-60, 24, 24);
     
     // fill the rocks list randomly
-    if(random(1)<0.005) { 
+    if(random(1)<0.02) { 
       rocks.push(new Obstacle());
     }
+
+    console.log(height-60);
     
     for(let rock of rocks) {
       rock.move();
       rock.display();
-      if(rock.y == height - 60 && rock.x == recX + 10){
+      console.log("new rock");
+      console.log(rock.y);
+
+      if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == recX + 10){
          instruction = 3;
          }
       if(rock.y > 500) { // removing rocks no longer on screen to free up memory
@@ -115,9 +169,14 @@ function draw() {
   else if(instruction==3) {
     loseScreen();
   }
+  else if(instruction==5){
+    ghostTimer += 1;
+    ghostScreen();
+  }
 }
 
 function startGame() {
+  startButtonInstructions.hide();
   instruction=1;
   text(score, 540, 40);
   startButton.hide();
@@ -131,6 +190,7 @@ function loseScreen() {
     fill(255, 255, 255);
     textSize(60);
     text("Game Over", 130,200);
+    drawingContext.filter = 'blur(0px)';
     if(!isRestart) {
       restartButton = createButton('Restart');
       isRestart = true;
@@ -138,7 +198,25 @@ function loseScreen() {
     
     restartButton.position(255, 280);
     restartButton.mousePressed(restart);
+    ghostTimer = 0;
+    blurTimer = 0;
   
+}
+
+function ghostScreen(){
+  drawingContext.filter = 'blur(0px)';
+    background(50, 55, 100);
+    noStroke();
+    fill(255, 255, 255);
+    textSize(30);
+    text("Ghost mode on! Can you beat it?", 80,200);  
+    image(ghost, 200, 200);
+    ghost.resize(400, 0);
+
+    if(ghostTimer>120){
+      instruction=1;
+    }
+
 }
 
 function keyPressed() {
