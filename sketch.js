@@ -55,10 +55,11 @@ function restart() {
 function startMenu() {
   // the menu for the start and instructions button
   background(50, 55, 100);
-  
+
   textSize(20);
   fill(255, 255, 255);
   text('Press the start button to begin the game', 110, 200);
+  snow();
 }
 
 function instructions() {
@@ -129,7 +130,7 @@ function draw() {
       }else{
         instruction = 5;
       }
-      
+
     }
 
     if(blurTimer>100){
@@ -137,7 +138,19 @@ function draw() {
       drawingContext.filter = 'blur(0px)';
       ghostTimer = 0;
     }
-    
+    let t = frameCount / 60; // update time
+
+    // create a random number of snowflakes each frame
+    for (let i = 0; i < random(5); i++) {
+      snowflakes.push(new snowflake()); // append snowflake object
+    }
+
+    // loop through snowflakes with a for..of loop
+    for (let flake of snowflakes) {
+      flake.update(t); // update snowflake position
+      flake.display(); // draw snowflake
+    }
+
     // dimensions of rect (which is our sprite for now)
     rect(recX, height-60, 24, 24);
     
@@ -200,7 +213,7 @@ function loseScreen() {
     restartButton.mousePressed(restart);
     ghostTimer = 0;
     blurTimer = 0;
-  
+
 }
 
 function ghostScreen(){
@@ -209,7 +222,7 @@ function ghostScreen(){
     noStroke();
     fill(255, 255, 255);
     textSize(30);
-    text("Ghost mode on! Can you beat it?", 80,200);  
+    text("Ghost mode on! Can you beat it?", 80,200);
     image(ghost, 200, 200);
     ghost.resize(400, 0);
 
