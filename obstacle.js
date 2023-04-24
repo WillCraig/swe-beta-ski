@@ -2,8 +2,8 @@ let lanes = [100, 300, 500];
 let rockImg;
 
  function preload(){
-	rockImg = loadImage("rock.jpg");
-    treeImg = loadImage("tree.jpg")
+	rockImg = loadImage("/assets/rock.jpg");
+    treeImg = loadImage("/assets/tree.jpg")
 }
 //function setup(){
  // img = random(rockImg , treeImg);
