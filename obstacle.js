@@ -6,10 +6,9 @@ function preload() {
 
     obsImg = [
         loadImage("./assets/rock.jpg"),
-        loadImage("./assets/tree.jpg")
+        loadImage("./assets/tree.jpg"),
+        //loadImage("./assests/coin.jpg")
     ]
-    // rockImg = loadImage("/assets/rock.jpg");
-    // treeImg = loadImage("/assets/tree.jpg")
 
 }
 

@@ -35,7 +35,7 @@ function setup() {
   rightButton = loadImage('assets/right.png');
   leftButton = loadImage('assets/left.png');
   ghost = loadImage('assets/ghost.png');
-  coinCollect = loadImage('./assets/coin.png');
+  coinCollect = loadImage('./assets/coin.jpg');
   rockA = loadImage('./assets/rock.jpg');
   treeA = loadImage('./assets/tree.jpg');
 
@@ -75,14 +75,15 @@ function instructions() {
   background(50, 55, 100);
   textSize(15);
   fill(255, 255, 255);
-  text('Move the object using the left and right arrows to avoid obstacles', windowWidth/5, windowHeight/3.2);
+  text('Move the object using the left and right arrows to avoid obstacles and collect coins', windowWidth/5, windowHeight/3.2);
   instructionsButton.hide();
   startButton.hide();
 
   startButtonInstructions.show();
-  startButtonInstructions.position(250, 350);
+  startButtonInstructions.position(windowWidth/2.2, windowHeight/1.75);
   startButtonInstructions.mousePressed(startGame);//
 
+  //change width and heigth according to the window
   image(rightButton, 300, 250);
   rightButton.resize(50, 0);
 
