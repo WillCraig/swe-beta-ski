@@ -75,7 +75,7 @@ function instructions() {
   background(50, 55, 100);
   textSize(15);
   fill(255, 255, 255);
-  text('Move the object using the left and right arrows to avoid obstacles and collect coins', windowWidth/5, windowHeight/3.2);
+  text('Move the object using the left and right arrows to avoid obstacles', windowWidth/3, windowHeight/3.7);
   instructionsButton.hide();
   startButton.hide();
 
@@ -83,37 +83,38 @@ function instructions() {
   startButtonInstructions.position(windowWidth/2.2, windowHeight/1.75);
   startButtonInstructions.mousePressed(startGame);//
 
-  //change width and heigth according to the window
-  image(rightButton, 300, 250);
+  //instruction button with width and heigth according to the window
+  image(rightButton, windowWidth/2.5, 250);
   rightButton.resize(50, 0);
 
-  image(leftButton, 200, 250);
+  image(leftButton, windowWidth/4, 250);
   leftButton.resize(48, 0);
 
-  image(coinCollect, 425, 250);
+  image(coinCollect, windowWidth/1.30, 250);
   coinCollect.resize(48, 0);
   
-  image(rockA, 260, 300);
+  image(rockA,windowWidth/1.85, 255);
   rockA.resize(48, 0);
   
-  image(treeA, 325, 235);
+  image(treeA, windowWidth/1.55, 244);
   treeA.resize(48, 0);
 
   textSize(15);
   fill(255, 255, 255);
-  text('Move Left', 190, 320);
+  text('Move Left', windowWidth/4.2, 320);
 
   textSize(15);
   fill(255, 255, 255);
-  text('Move Right', 290, 320);
+  text('Move Right', windowWidth/2.6, 320);
 
   textSize(15);
   fill(255, 255, 255);
-  text('avoid', 300, 320);
+  text('avoid', windowWidth/1.70, 320);
   
   textSize(15);
   fill(255, 255, 255);
-  text('collect', 425, 320);
+  text('collect', windowWidth/1.29, 320);
+  
   
 }
 
