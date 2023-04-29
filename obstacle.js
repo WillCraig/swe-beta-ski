@@ -22,11 +22,12 @@ class Obstacle {
         this.b = 30; // size
         this.x = lanes[Math.floor(Math.random() * lanes.length)] // randonly choosing the lane
         this.y = heights[Math.floor(Math.random() * heights.length)]; // height
+        this.speed = 6;
         this.choice = obsImg[Math.floor(Math.random() * obsImg.length)]
     }
 
     move() {
-        this.y += 3;
+        this.y += this.speed;
     }
 
     display() {

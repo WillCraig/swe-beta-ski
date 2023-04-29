@@ -12,12 +12,16 @@ let startButtonInstructions;
 let blurTimer = 0;
 let ghostTimer = 0;
 let blureff;
+let obstaclesRate;
+let flakesRate;
 let positionsDict = {};
 
 // Game setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
   instruction = 0;
+  obstaclesRate = 0.02;
+  flakesRate = 0.3;
   rocks = [];
   w = Math.round((windowWidth / 2) - 10);
   console.log(w);
@@ -153,10 +157,11 @@ function draw() {
     stroke(126);
 
     if(blurTimer>60 && blurTimer<100){
-      if(ghostTimer>0){
+      if(ghostTimer>0){ 
         drawingContext.filter = 'blur(12px)';
         blureff = true;
-      }else{
+        flakesRate = 0.05;
+      }else{ // display ghost mode screen
         instruction = 5;
       }
 
@@ -166,19 +171,30 @@ function draw() {
       blurTimer = -100;
       drawingContext.filter = 'blur(0px)';
       ghostTimer = 0;
+      blureff = false;
+      snowflakes = [];
     }
     let t = frameCount / 60; // update time
 
     if(blureff == false){
+      console.log("snowflakes length is " + snowflakes.length);
       // create a random number of snowflakes each frame
-      for (let i = 0; i < random(0.01); i++) {
+      if(random(1)<flakesRate) { 
         snowflakes.push(new snowflake()); // append snowflake object
       }
 
       // loop through snowflakes with a for..of loop
       for (let flake of snowflakes) {
         flake.update(t); // update snowflake position
-        flake.display(); // draw snowflake
+        flake.display(); // draw snowflake'
+
+        if(flake.y > windowHeight) { // removing flakes no longer on screen to free up memory
+          var index = snowflakes.indexOf(rock);
+          if (index !== -1) {
+            snowflakes.splice(index, 1);
+            changeScore(1);
+          }
+        }
       }
     }
 
@@ -187,24 +203,30 @@ function draw() {
     rect(w, height-60, 24, 24);
     
     // fill the rocks list randomly
-    if(random(1)<0.02) { 
-      rocks.push(new Obstacle());
+    if(random(1)<obstaclesRate) { 
+      let newRock = new Obstacle();
+      if(blureff==true){
+        newRock.speed = 12;
+      }else{
+        newRock.speed = 6;
+      }
+      rocks.push(newRock);
     }
 
     console.log(height-60);
     
     for(let rock of rocks) {
+      console.log("rock speed is: " + rock.speed);
+
       rock.move();
       rock.display();
-      console.log("new rock");
-      console.log("y is" + rock.y);
-      console.log("x is" + rock.x);
-      console.log("height is" + height);
-      console.log("recx is" + recX);
 
       if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == positionsDict[w]){
          instruction = 3;
          }
+
+      console.log("rocks length is: " + rocks.length);
+
       if(rock.y > windowHeight) { // removing rocks no longer on screen to free up memory
         var index = rocks.indexOf(rock);
         if (index !== -1) {
