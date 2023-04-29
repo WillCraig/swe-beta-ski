@@ -12,13 +12,15 @@ let startButtonInstructions;
 let blurTimer = 0;
 let ghostTimer = 0;
 let blureff;
+let positionsDict = {};
 
 // Game setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
   instruction = 0;
   rocks = [];
-  w = (windowWidth / 2) - 10;
+  w = Math.round((windowWidth / 2) - 10);
+  console.log(w);
 
   startButton = createButton('Start');
   startButton.position(windowWidth/2.2, windowHeight/2);
@@ -40,7 +42,9 @@ function setup() {
   treeA = loadImage('./assets/tree.jpg');
 
   blureff = false;
-
+  positionsDict[582] = 575;
+  positionsDict[187] = 188;
+  positionsDict[976] = 962;
 }
 
 // changes the score
@@ -193,9 +197,12 @@ function draw() {
       rock.move();
       rock.display();
       console.log("new rock");
-      console.log(rock.y);
+      console.log("y is" + rock.y);
+      console.log("x is" + rock.x);
+      console.log("height is" + height);
+      console.log("recx is" + recX);
 
-      if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == recX + 10){
+      if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == positionsDict[w]){
          instruction = 3;
          }
       if(rock.y > windowHeight) { // removing rocks no longer on screen to free up memory
@@ -263,27 +270,33 @@ function ghostScreen(){
 function keyPressed() {
   // player can move rectangle left and right w/ arrow keys
   if (keyCode === RIGHT_ARROW || keyCode === 68) {
-    if (w == ((5*windowWidth)/6) -10) {
+    if (w == Math.round((5*windowWidth)/6) -10) {
       w += 0;
-    }else if(w == (windowWidth/2)-10) {
-      w = ((5*windowWidth)/6) -10;
-    }else if(w == windowWidth/6 - 10) {
-      w = windowWidth/2 - 10;
+    }else if(w == Math.round((windowWidth/2)-10)) {
+      w = (Math.round((5*windowWidth)/6) -10);
+      console.log("new w is " + w);
+    }else if(w == Math.round(windowWidth/6 - 10)) {
+      w = Math.round(windowWidth/2 - 10);
+      console.log("new w is " + w);
     }
   }
   
   if (keyCode === LEFT_ARROW || keyCode === 65) {
     //changeScore(-50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
-    if (w == (windowWidth/6)-10) {
+    if (w == (Math.round(windowWidth/6)-10)) {
       w += 0;
       keyCode = -1;
-    }else if(w == windowWidth/2 - 10) {
-      w = windowWidth/6-10;
+    }else if(w == Math.round(windowWidth/2 - 10)) {
+      w = Math.round(windowWidth/6-10);
+      console.log("new w is " + w);
       keyCode = -1;
-    }else if(w == ((5*windowWidth)/6) -10) {
-      w = windowWidth/2 - 10;
+    }else if(w == Math.round(((5*windowWidth)/6) -10)) {
+      w = Math.round(windowWidth/2 - 10);
+      console.log("new w is " + w);
       keyCode = -1;
     }
 
   }
 }
+
+

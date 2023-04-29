@@ -1,4 +1,4 @@
-let lanes = [100, 300, 500];
+let lanes = [188, 575, 962];
 let rockImg;
 let obsImg = []
 
