@@ -19,6 +19,7 @@ let blureff;
 let obstaclesRate;
 let flakesRate;
 let positionsDict = {};
+let currentTrack;
 
 // Game setup
 function setup() {
@@ -52,10 +53,22 @@ function setup() {
   treeA = loadImage('./assets/tree.jpg');
   player = loadImage('./assets/skier.png');
 
+  tracks = [
+    loadSound('./assets/soundtrack/track1.mp3'),
+    loadSound('./assets/soundtrack/track2.mp3'),
+    loadSound('./assets/soundtrack/track3.mp3'),
+    loadSound('./assets/soundtrack/track4.mp3'),
+    loadSound('./assets/soundtrack/track5.mp3'),
+    loadSound('./assets/soundtrack/track6.mp3'),
+    loadSound('./assets/soundtrack/track7.mp3')
+  ]
+
   blureff = false;
   positionsDict[582] = 575;
   positionsDict[187] = 188;
   positionsDict[976] = 962;
+
+  currentTrack = tracks[Math.floor(Math.random() * tracks.length)]
 }
 
 // changes the score
@@ -310,6 +323,10 @@ function startGame() {
   startButton.hide();
   instructionsButton.hide();
   setStartScore();
+
+  if (!currentTrack.isPlaying()) {
+    currentTrack.play()
+  }
 }
 
 function loseScreen() {
@@ -329,6 +346,8 @@ function loseScreen() {
     ghostTimer = 0;
     blurTimer = 0;
 
+    currentTrack.stop();
+    currentTrack = tracks[Math.floor(Math.random() * tracks.length)]
 }
 
 function ghostScreen(){
