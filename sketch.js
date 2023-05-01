@@ -25,19 +25,19 @@ function setup() {
   obstaclesRate = 0.5;
   flakesRate = 0.3;
   rocks = [];
-  w = Math.round((windowWidth / 2) - 10);
-  console.log("width is: " + windowWidth);
-  console.log("height is: " + windowHeight);
+  w = Math.round((1183 / 2) - 10);
+  console.log("width is: " + 1183);
+  console.log("height is: " + 585);
 
   startButton = createButton('Start');
-  startButton.position(windowWidth/2.2, windowHeight/2);
+  startButton.position(1183/2.2, 585/2);
   startButton.mousePressed(startGame);//
 
   startButtonInstructions = createButton('Start');
   startButtonInstructions.hide();
   
   instructionsButton = createButton('Instructions');
-  instructionsButton.position(windowWidth/2.3, windowHeight/1.75);
+  instructionsButton.position(1183/2.3, 585/1.75);
   instructionsButton.mousePressed(instructions);
 
   isRestart = false;
@@ -76,7 +76,7 @@ function startMenu() {
 
   textSize(20);
   fill(255, 255, 255);
-  text('Press the start button to begin the game', windowWidth/3, windowHeight/3.2);
+  text('Press the start button to begin the game', 1183/3, 585/3.2);
   snow();
 }
 
@@ -86,45 +86,45 @@ function instructions() {
   background(50, 55, 100);
   textSize(15);
   fill(255, 255, 255);
-  text('Move the object using the left and right arrows to avoid obstacles', windowWidth/3, windowHeight/3.7);
+  text('Move the object using the left and right arrows to avoid obstacles', 1183/3, 585/3.7);
   instructionsButton.hide();
   startButton.hide();
 
   startButtonInstructions.show();
-  startButtonInstructions.position(windowWidth/2.2, windowHeight/1.75);
+  startButtonInstructions.position(1183/2.2, 585/1.75);
   startButtonInstructions.mousePressed(startGame);//
 
   //instruction button with width and heigth according to the window
-  image(rightButton, windowWidth/2.5, 250);
+  image(rightButton, 1183/2.5, 250);
   rightButton.resize(50, 0);
 
-  image(leftButton, windowWidth/4, 250);
+  image(leftButton, 1183/4, 250);
   leftButton.resize(48, 0);
 
-  image(coinCollect, windowWidth/1.30, 250);
+  image(coinCollect, 1183/1.30, 250);
   coinCollect.resize(48, 0);
   
-  image(rockA,windowWidth/1.85, 255);
+  image(rockA,1183/1.85, 255);
   rockA.resize(48, 0);
   
-  image(treeA, windowWidth/1.55, 244);
+  image(treeA, 1183/1.55, 244);
   treeA.resize(48, 0);
 
   textSize(15);
   fill(255, 255, 255);
-  text('Move Left', windowWidth/4.2, 320);
+  text('Move Left', 1183/4.2, 320);
 
   textSize(15);
   fill(255, 255, 255);
-  text('Move Right', windowWidth/2.6, 320);
+  text('Move Right', 1183/2.6, 320);
 
   textSize(15);
   fill(255, 255, 255);
-  text('avoid', windowWidth/1.70, 320);
+  text('avoid', 1183/1.70, 320);
   
   textSize(15);
   fill(255, 255, 255);
-  text('collect', windowWidth/1.29, 320);
+  text('collect', 1183/1.29, 320);
   
   
 }
@@ -155,8 +155,8 @@ function draw() {
     blurTimer += 0.1;
     background(220);
     Score();
-    line((windowWidth/3), 0, (windowWidth/3), height);
-    line(((windowWidth * 2)/3), 0,  (((windowWidth*2)/3)), height);
+    line((1183/3), 0, (1183/3), height);
+    line(((1183 * 2)/3), 0,  (((1183*2)/3)), height);
     stroke(126);
 
     if(blurTimer>60 && blurTimer<100){
@@ -191,7 +191,7 @@ function draw() {
         flake.update(t); // update snowflake position
         flake.display(); // draw snowflake'
 
-        if(flake.y > windowHeight) { // removing flakes no longer on screen to free up memory
+        if(flake.y > 585) { // removing flakes no longer on screen to free up memory
           var index = snowflakes.indexOf(rock);
           if (index !== -1) {
             snowflakes.splice(index, 1);
@@ -224,7 +224,7 @@ function draw() {
 
       console.log("rocks length is: " + rocks.length);
 
-      if(rock.y > windowHeight) { // removing rocks no longer on screen to free up memory
+      if(rock.y > 585) { // removing rocks no longer on screen to free up memory
         var index = rocks.indexOf(rock);
         if (index !== -1) {
           rocks.splice(index, 1);
@@ -260,7 +260,7 @@ function createRock(){
 function startGame() {
   startButtonInstructions.hide();
   instruction=1;
-  text(score, windowWidth, windowHeight);
+  text(score, 1183, 585);
   startButton.hide();
   instructionsButton.hide();
   setStartScore();
@@ -271,14 +271,14 @@ function loseScreen() {
     noStroke();
     fill(255, 255, 255);
     textSize(60);
-    text("Game Over", windowWidth/3, windowHeight/3.2);
+    text("Game Over", 1183/3, 585/3.2);
     drawingContext.filter = 'blur(0px)';
     if(!isRestart) {
       restartButton = createButton('Restart');
       isRestart = true;
     }
     
-    restartButton.position(windowWidth/2.2, windowHeight/2);
+    restartButton.position(1183/2.2, 585/2);
     restartButton.mousePressed(restart);
     ghostTimer = 0;
     blurTimer = 0;
@@ -304,28 +304,28 @@ function ghostScreen(){
 function keyPressed() {
   // player can move rectangle left and right w/ arrow keys
   if (keyCode === RIGHT_ARROW || keyCode === 68) {
-    if (w == Math.round((5*windowWidth)/6) -10) {
+    if (w == Math.round((5*1183)/6) -10) {
       w += 0;
-    }else if(w == Math.round((windowWidth/2)-10)) {
-      w = (Math.round((5*windowWidth)/6) -10);
+    }else if(w == Math.round((1183/2)-10)) {
+      w = (Math.round((5*1183)/6) -10);
       console.log("new w is " + w);
-    }else if(w == Math.round(windowWidth/6 - 10)) {
-      w = Math.round(windowWidth/2 - 10);
+    }else if(w == Math.round(1183/6 - 10)) {
+      w = Math.round(1183/2 - 10);
       console.log("new w is " + w);
     }
   }
   
   if (keyCode === LEFT_ARROW || keyCode === 65) {
     //changeScore(-50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
-    if (w == (Math.round(windowWidth/6)-10)) {
+    if (w == (Math.round(1183/6)-10)) {
       w += 0;
       keyCode = -1;
-    }else if(w == Math.round(windowWidth/2 - 10)) {
-      w = Math.round(windowWidth/6-10);
+    }else if(w == Math.round(1183/2 - 10)) {
+      w = Math.round(1183/6-10);
       console.log("new w is " + w);
       keyCode = -1;
-    }else if(w == Math.round(((5*windowWidth)/6) -10)) {
-      w = Math.round(windowWidth/2 - 10);
+    }else if(w == Math.round(((5*1183)/6) -10)) {
+      w = Math.round(1183/2 - 10);
       console.log("new w is " + w);
       keyCode = -1;
     }
