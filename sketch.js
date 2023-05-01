@@ -19,10 +19,12 @@ let blureff;
 let obstaclesRate;
 let flakesRate;
 let positionsDict = {};
+let previousScores = [];
 let currentTrack;
 
 // Game setup
 function setup() {
+  
   createCanvas(1183, 585);
   instruction = 0;
   obstaclesRate = 0.5;
@@ -73,7 +75,7 @@ function setup() {
 
 // changes the score
 function changeScore(amt) {
-  score = score + 1; 
+  score = score + amt; 
 }
 
 // sets the score
@@ -242,8 +244,9 @@ function draw() {
       rock.display();
 
       if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == positionsDict[w]){
-         instruction = 3;
-         }
+        previousScores.push(score + "\n");
+        instruction = 3;
+      }
 
       console.log("rocks length is: " + rocks.length);
 
@@ -269,7 +272,7 @@ function draw() {
          var index = coins.indexOf(coin);
          if (index !== -1) {
            coins.splice(index, 1);
-           changeScore(3);
+           changeScore(5);
          }
       }
       if(coin.y > 585) { // removing coins no longer on screen to free up memory
@@ -329,25 +332,29 @@ function startGame() {
   }
 }
 
-function loseScreen() {
-  background(50, 55, 100);
-    noStroke();
-    fill(255, 255, 255);
-    textSize(60);
-    text("Game Over", 1183/3, 585/3.2);
-    drawingContext.filter = 'blur(0px)';
-    if(!isRestart) {
-      restartButton = createButton('Restart');
-      isRestart = true;
-    }
-    
-    restartButton.position(1183/2.2, 585/2);
-    restartButton.mousePressed(restart);
-    ghostTimer = 0;
-    blurTimer = 0;
+function loseScreen() { 
 
-    currentTrack.stop();
-    currentTrack = tracks[Math.floor(Math.random() * tracks.length)]
+  background(50, 55, 100);
+  noStroke();
+  fill(255, 255, 255);
+  textSize(60);
+
+  scoreToShow = getHighestScore(previousScores)
+  text("High Score: " + scoreToShow, 1183/3, 585/2.3)
+  text("Game Over", 1183/3, 585/3.3);
+  drawingContext.filter = 'blur(0px)';
+  if(!isRestart) {
+    restartButton = createButton('Restart');
+    isRestart = true;
+  }
+    
+  restartButton.position(1183/2.2, 585/2);
+  restartButton.mousePressed(restart);
+  ghostTimer = 0;
+  blurTimer = 0;
+
+  currentTrack.stop();
+  currentTrack = tracks[Math.floor(Math.random() * tracks.length)];
 }
 
 function ghostScreen(){
@@ -364,6 +371,18 @@ function ghostScreen(){
       instruction=1;
     }
 
+}
+
+function getHighestScore(stringsArray) {
+  let highestScore = -Infinity;
+  for (let i = 0; i < stringsArray.length; i++) {
+    let splitString = stringsArray[i].split(",");
+    let score = parseInt(splitString[splitString.length - 1]);
+    if (score > highestScore) {
+      highestScore = score;
+    }
+  }
+  return highestScore;
 }
 
 function keyPressed() {
