@@ -4,6 +4,7 @@ let startButton;        // the stat button in the start menu
 let instructionsButton; // the instructions button in the start menu
 let restartButton;      // the restart button in the game over screen
 let rocks;              // list that will be randomly populated with obstacles during the game
+let coins;
 let player;
 let isRestart;
 var score = 0;
@@ -26,6 +27,7 @@ function setup() {
   obstaclesRate = 0.5;
   flakesRate = 0.3;
   rocks = [];
+  coins = [];
   w = Math.round((1183 / 2) - 10);
   console.log("width is: " + 1183);
   console.log("height is: " + 585);
@@ -207,7 +209,13 @@ function draw() {
     // dimensions of rect (which is our sprite for now)
     image(player, w, height-60, 30, 30);
     
-    if (frameCount - lastRockTime > 20) {
+
+    //This implementation could probably be better, it essentially uses random and the low probability of ran being above 40 to generate coins every so often
+    //I did it this way so that for the most part they will not overlap
+    if (random(0,41) > 40.5) {
+      createCoins();
+      lastRockTime = frameCount;
+    } else if (frameCount - lastRockTime > 20){
       createRock();
       lastRockTime = frameCount;
     }
@@ -236,6 +244,29 @@ function draw() {
 
 
     }
+
+
+    for(let coin of coins) {
+      coin.move();
+      coin.display();
+
+      console.log("coin?");
+
+      if(coin.y < height - 60 && coin.y > height - 60 - 24 && coin.x == positionsDict[w]){
+         var index = coins.indexOf(coin);
+         if (index !== -1) {
+           coins.splice(index, 1);
+           changeScore(3);
+         }
+      }
+      if(coin.y > 585) { // removing coins no longer on screen to free up memory
+        var index = coins.indexOf(coin);
+        if (index !== -1) {
+          coins.splice(index, 1);
+        }
+      }
+    }
+
   }
   else if(instruction==3) {
     loseScreen();
@@ -257,6 +288,19 @@ function createRock(){
         }
         rocks.push(newRock);
       }
+}
+
+function createCoins(){
+  // fill the rocks list randomly
+  if(random(1)<obstaclesRate) { 
+    let newCoin = new Coin();
+    if(blureff==true){
+      newCoin.speed = 12;
+    }else{
+      newCoin.speed = 6;
+    }
+    coins.push(newCoin);
+  }
 }
 
 function startGame() {
