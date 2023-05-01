@@ -8,9 +8,11 @@ let isRestart;
 var score = 0;
 let rightButton;
 let leftButton;
+let startTime;
 let startButtonInstructions;
 let blurTimer = 0;
 let ghostTimer = 0;
+let lastRockTime = 0;
 let blureff;
 let obstaclesRate;
 let flakesRate;
@@ -18,13 +20,14 @@ let positionsDict = {};
 
 // Game setup
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1183, 585);
   instruction = 0;
-  obstaclesRate = 0.02;
+  obstaclesRate = 0.5;
   flakesRate = 0.3;
   rocks = [];
   w = Math.round((windowWidth / 2) - 10);
-  console.log(w);
+  console.log("width is: " + windowWidth);
+  console.log("height is: " + windowHeight);
 
   startButton = createButton('Start');
   startButton.position(windowWidth/2.2, windowHeight/2);
@@ -171,7 +174,7 @@ function draw() {
       blurTimer = -100;
       drawingContext.filter = 'blur(0px)';
       ghostTimer = 0;
-      blureff = false;
+      blureff = true; // can be changed to true to bring blur effect after ghost mode (but causes lagging)
       snowflakes = [];
     }
     let t = frameCount / 60; // update time
@@ -202,21 +205,15 @@ function draw() {
     // dimensions of rect (which is our sprite for now)
     rect(w, height-60, 24, 24);
     
-    // fill the rocks list randomly
-    if(random(1)<obstaclesRate) { 
-      let newRock = new Obstacle();
-      if(blureff==true){
-        newRock.speed = 12;
-      }else{
-        newRock.speed = 6;
-      }
-      rocks.push(newRock);
+    if (frameCount - lastRockTime > 20) {
+      createRock();
+      lastRockTime = frameCount;
     }
+
 
     console.log(height-60);
     
     for(let rock of rocks) {
-      console.log("rock speed is: " + rock.speed);
 
       rock.move();
       rock.display();
@@ -234,6 +231,8 @@ function draw() {
           changeScore(1);
         }
       }
+
+
     }
   }
   else if(instruction==3) {
@@ -243,6 +242,19 @@ function draw() {
     ghostTimer += 1;
     ghostScreen();
   }
+}
+
+function createRock(){
+      // fill the rocks list randomly
+      if(random(1)<obstaclesRate) { 
+        let newRock = new Obstacle();
+        if(blureff==true){
+          newRock.speed = 12;
+        }else{
+          newRock.speed = 6;
+        }
+        rocks.push(newRock);
+      }
 }
 
 function startGame() {
