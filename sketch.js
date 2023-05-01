@@ -112,6 +112,7 @@ function instructions() {
   textSize(15);
   fill(255, 255, 255);
   text('Move the object using the left and right arrows to avoid obstacles', 1183/3, 585/3.7);
+  text('Press the spacebar to pause the game', 1183/3 + 70, 585/3.7 + 40);
   instructionsButton.hide();
   startButton.hide();
 
