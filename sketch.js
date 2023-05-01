@@ -4,6 +4,7 @@ let startButton;        // the stat button in the start menu
 let instructionsButton; // the instructions button in the start menu
 let restartButton;      // the restart button in the game over screen
 let rocks;              // list that will be randomly populated with obstacles during the game
+let player;
 let isRestart;
 var score = 0;
 let rightButton;
@@ -47,6 +48,7 @@ function setup() {
   coinCollect = loadImage('./assets/coin.jpg');
   rockA = loadImage('./assets/rock.jpg');
   treeA = loadImage('./assets/tree.jpg');
+  player = loadImage('./assets/skier.png');
 
   blureff = false;
   positionsDict[582] = 575;
@@ -203,7 +205,7 @@ function draw() {
 
 
     // dimensions of rect (which is our sprite for now)
-    rect(w, height-60, 24, 24);
+    image(player, w, height-60, 30, 30);
     
     if (frameCount - lastRockTime > 20) {
       createRock();
