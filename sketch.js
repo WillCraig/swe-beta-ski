@@ -16,6 +16,7 @@ let blurTimer = 0;
 let ghostTimer = 0;
 let lastRockTime = 0;
 let blureff;
+let paused;
 let obstaclesRate;
 let flakesRate;
 let positionsDict = {};
@@ -31,6 +32,7 @@ function setup() {
   obstaclesRate = 0.5;
   flakesRate = 0.3;
   rocks = [];
+  paused = false;
   coins = [];
   w = Math.round((1183 / 2) - 10);
   console.log("width is: " + 1183);
@@ -95,8 +97,9 @@ function startMenu() {
   background(50, 55, 100);
 
   textSize(20);
-  fill(255, 255, 255);
-  text('Press the start button to begin the game', 1183/3, 585/3.2);
+  fill(255, 255, 255).textSize(30);
+  text('Press the start button to begin the game', 320, 230);
+  textFont('Georgia');
   snow();
 }
 
@@ -157,123 +160,127 @@ function Score() {
 }
 
 function draw() {  
-  
-  clear();
-  
-  if(instruction == 4) {
-    instructions();
-  }
 
-  if(instruction==0) {
-    // load the menu
-    startMenu();
-  }
-
-  else if(instruction==1) {
+  if(!paused){
     clear();
-    // start the game
-    blurTimer += 0.1;
-    background(220);
-    Score();
-    line((1183/3), 0, (1183/3), height);
-    line(((1183 * 2)/3), 0,  (((1183*2)/3)), height);
-    stroke(126);
-
-    if(blurTimer>60 && blurTimer<100){
-      if(ghostTimer>0){ 
-        drawingContext.filter = 'blur(12px)';
-        blureff = true;
-        flakesRate = 0.05;
-      }else{ // display ghost mode screen
-        instruction = 5;
+  
+    if(instruction == 4) {
+      instructions();
+    }
+  
+    if(instruction==0) {
+      // load the menu
+      startMenu();
+    }
+  
+    else if(instruction==1) {
+      clear();
+      // start the game
+      blurTimer += 0.1;
+      background(220);
+      Score();
+      line((1183/3), 0, (1183/3), height);
+      line(((1183 * 2)/3), 0,  (((1183*2)/3)), height);
+      stroke(126);
+  
+      if(blurTimer>60 && blurTimer<100){
+        if(ghostTimer>0){ 
+          drawingContext.filter = 'blur(12px)';
+          blureff = true;
+          flakesRate = 0.05;
+        }else{ // display ghost mode screen
+          instruction = 5;
+        }
+  
       }
-
-    }
-
-    if(blurTimer>100){
-      blurTimer = -100;
-      drawingContext.filter = 'blur(0px)';
-      ghostTimer = 0;
-      blureff = false; // can be changed to false to bring blur effect after ghost mode (but causes lagging)
-      snowflakes = [];
-    }
-    t = frameCount / 60; // update time
-
-    if(blureff == false){
-      showSnowEffect();
-    }
-
-
-    // dimensions of rect (which is our sprite for now)
-    image(player, w, height-60, 30, 30);
-    
-
-    //This implementation could probably be better, it essentially uses random and the low probability of ran being above 40 to generate coins every so often
-    //I did it this way so that for the most part they will not overlap
-    if (random(0,41) > 40.5) {
-      createCoins();
-      lastRockTime = frameCount;
-    } else if (frameCount - lastRockTime > 20){
-      createRock();
-      lastRockTime = frameCount;
-    }
-
-
-    console.log(height-60);
-    
-    for(let rock of rocks) {
-
-      rock.move();
-      rock.display();
-
-      if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == positionsDict[w]){
-        previousScores.push(score + "\n");
-        instruction = 3;
+  
+      if(blurTimer>100){
+        blurTimer = -100;
+        drawingContext.filter = 'blur(0px)';
+        ghostTimer = 0;
+        blureff = false; // can be changed to false to bring blur effect after ghost mode (but causes lagging)
+        snowflakes = [];
       }
-
-      console.log("rocks length is: " + rocks.length);
-
-      if(rock.y > 585) { // removing rocks no longer on screen to free up memory
-        var index = rocks.indexOf(rock);
-        if (index !== -1) {
-          rocks.splice(index, 1);
-          changeScore(1);
+      t = frameCount / 60; // update time
+  
+      if(blureff == false){
+        showSnowEffect();
+      }
+  
+  
+      // dimensions of rect (which is our sprite for now)
+      image(player, w, height-60, 30, 30);
+      
+  
+      //This implementation could probably be better, it essentially uses random and the low probability of ran being above 40 to generate coins every so often
+      //I did it this way so that for the most part they will not overlap
+      if (random(0,41) > 40.5) {
+        createCoins();
+        lastRockTime = frameCount;
+      } else if (frameCount - lastRockTime > 20){
+        createRock();
+        lastRockTime = frameCount;
+      }
+  
+  
+      console.log(height-60);
+      
+      for(let rock of rocks) {
+  
+        rock.move();
+        rock.display();
+  
+        if(rock.y < height - 60 && rock.y > height - 60 - 24 && rock.x == positionsDict[w]){
+          previousScores.push(score + "\n");
+          instruction = 3;
+        }
+  
+        console.log("rocks length is: " + rocks.length);
+  
+        if(rock.y > 585) { // removing rocks no longer on screen to free up memory
+          var index = rocks.indexOf(rock);
+          if (index !== -1) {
+            rocks.splice(index, 1);
+            changeScore(1);
+          }
+        }
+  
+  
+      }
+  
+  
+      for(let coin of coins) {
+        coin.move();
+        coin.display();
+  
+        console.log("coin?");
+  
+        if(coin.y < height - 60 && coin.y > height - 60 - 24 && coin.x == positionsDict[w]){
+           var index = coins.indexOf(coin);
+           if (index !== -1) {
+             coins.splice(index, 1);
+             changeScore(5);
+           }
+        }
+        if(coin.y > 585) { // removing coins no longer on screen to free up memory
+          var index = coins.indexOf(coin);
+          if (index !== -1) {
+            coins.splice(index, 1);
+          }
         }
       }
-
-
+  
     }
-
-
-    for(let coin of coins) {
-      coin.move();
-      coin.display();
-
-      console.log("coin?");
-
-      if(coin.y < height - 60 && coin.y > height - 60 - 24 && coin.x == positionsDict[w]){
-         var index = coins.indexOf(coin);
-         if (index !== -1) {
-           coins.splice(index, 1);
-           changeScore(5);
-         }
-      }
-      if(coin.y > 585) { // removing coins no longer on screen to free up memory
-        var index = coins.indexOf(coin);
-        if (index !== -1) {
-          coins.splice(index, 1);
-        }
-      }
+    else if(instruction==3) {
+      loseScreen();
     }
-
+    else if(instruction==5){
+      ghostTimer += 1;
+      ghostScreen();
+    }
   }
-  else if(instruction==3) {
-    loseScreen();
-  }
-  else if(instruction==5){
-    ghostTimer += 1;
-    ghostScreen();
-  }
+  
+ 
 }
 
 function showSnowEffect(){
@@ -420,6 +427,11 @@ function keyPressed() {
     }
 
   }
+
+  if(key == ' '){
+    paused = !paused;
+  }
+
 }
 
 
