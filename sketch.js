@@ -39,14 +39,16 @@ function setup() {
   console.log("height is: " + 585);
 
   startButton = createButton('Start');
-  startButton.position(1183/2.2, 585/2);
+  startButton.position(520, 585/2);
+  startButton.size(100, 50);
   startButton.mousePressed(startGame);//
 
   startButtonInstructions = createButton('Start');
   startButtonInstructions.hide();
   
   instructionsButton = createButton('Instructions');
-  instructionsButton.position(1183/2.3, 585/1.75);
+  instructionsButton.position(520, 350);
+  instructionsButton.size(100, 50);
   instructionsButton.mousePressed(instructions);
 
   isRestart = false;
@@ -398,37 +400,39 @@ function getHighestScore(stringsArray) {
 }
 
 function keyPressed() {
-  // player can move rectangle left and right w/ arrow keys
-  if (keyCode === RIGHT_ARROW || keyCode === 68) {
-    if (w == Math.round((5*1183)/6) -10) {
-      w += 0;
-    }else if(w == Math.round((1183/2)-10)) {
-      w = (Math.round((5*1183)/6) -10);
-      console.log("new w is " + w);
-    }else if(w == Math.round(1183/6 - 10)) {
-      w = Math.round(1183/2 - 10);
-      console.log("new w is " + w);
-    }
-  }
-  
-  if (keyCode === LEFT_ARROW || keyCode === 65) {
-    //changeScore(-50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
-    if (w == (Math.round(1183/6)-10)) {
-      w += 0;
-      keyCode = -1;
-    }else if(w == Math.round(1183/2 - 10)) {
-      w = Math.round(1183/6-10);
-      console.log("new w is " + w);
-      keyCode = -1;
-    }else if(w == Math.round(((5*1183)/6) -10)) {
-      w = Math.round(1183/2 - 10);
-      console.log("new w is " + w);
-      keyCode = -1;
+  if(!paused){
+    // player can move rectangle left and right w/ arrow keys
+    if (keyCode === RIGHT_ARROW || keyCode === 68) {
+      if (w == Math.round((5*1183)/6) -10) {
+        w += 0;
+      }else if(w == Math.round((1183/2)-10)) {
+        w = (Math.round((5*1183)/6) -10);
+        console.log("new w is " + w);
+      }else if(w == Math.round(1183/6 - 10)) {
+        w = Math.round(1183/2 - 10);
+        console.log("new w is " + w);
+      }
     }
 
+    if (keyCode === LEFT_ARROW || keyCode === 65) {
+      //changeScore(-50) this was our first scoring procedure, and am leaving it incase something happens to the current procedure.
+      if (w == (Math.round(1183/6)-10)) {
+        w += 0;
+        keyCode = -1;
+      }else if(w == Math.round(1183/2 - 10)) {
+        w = Math.round(1183/6-10);
+        console.log("new w is " + w);
+        keyCode = -1;
+      }else if(w == Math.round(((5*1183)/6) -10)) {
+        w = Math.round(1183/2 - 10);
+        console.log("new w is " + w);
+        keyCode = -1;
+      }
+
+    }
   }
 
-  if(key == ' '){
+  if(key == ' ' && instruction!=0){
     paused = !paused;
   }
 
