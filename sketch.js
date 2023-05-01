@@ -193,7 +193,7 @@ function draw() {
       blurTimer = -100;
       drawingContext.filter = 'blur(0px)';
       ghostTimer = 0;
-      blureff = true; // can be changed to true to bring blur effect after ghost mode (but causes lagging)
+      blureff = false; // can be changed to false to bring blur effect after ghost mode (but causes lagging)
       snowflakes = [];
     }
     let t = frameCount / 60; // update time
