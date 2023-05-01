@@ -21,6 +21,7 @@ let flakesRate;
 let positionsDict = {};
 let previousScores = [];
 let currentTrack;
+let t;
 
 // Game setup
 function setup() {
@@ -196,28 +197,10 @@ function draw() {
       blureff = false; // can be changed to false to bring blur effect after ghost mode (but causes lagging)
       snowflakes = [];
     }
-    let t = frameCount / 60; // update time
+    t = frameCount / 60; // update time
 
     if(blureff == false){
-      console.log("snowflakes length is " + snowflakes.length);
-      // create a random number of snowflakes each frame
-      if(random(1)<flakesRate) { 
-        snowflakes.push(new snowflake()); // append snowflake object
-      }
-
-      // loop through snowflakes with a for..of loop
-      for (let flake of snowflakes) {
-        flake.update(t); // update snowflake position
-        flake.display(); // draw snowflake'
-
-        if(flake.y > 585) { // removing flakes no longer on screen to free up memory
-          var index = snowflakes.indexOf(rock);
-          if (index !== -1) {
-            snowflakes.splice(index, 1);
-            changeScore(1);
-          }
-        }
-      }
+      showSnowEffect();
     }
 
 
@@ -290,6 +273,28 @@ function draw() {
   else if(instruction==5){
     ghostTimer += 1;
     ghostScreen();
+  }
+}
+
+function showSnowEffect(){
+  console.log("snowflakes length is " + snowflakes.length);
+  // create a random number of snowflakes each frame
+  if(random(1)<flakesRate) { 
+    snowflakes.push(new snowflake()); // append snowflake object
+  }
+
+  // loop through snowflakes with a for..of loop
+  for (let flake of snowflakes) {
+    flake.update(t); // update snowflake position
+    flake.display(); // draw snowflake'
+
+    if(flake.y > 585) { // removing flakes no longer on screen to free up memory
+      var index = snowflakes.indexOf(rock);
+      if (index !== -1) {
+        snowflakes.splice(index, 1);
+        changeScore(1);
+      }
+    }
   }
 }
 
