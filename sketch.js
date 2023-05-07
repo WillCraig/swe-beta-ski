@@ -24,10 +24,14 @@ let previousScores = [];
 let currentTrack;
 let t;
 
+let HEIGHT = 585;
+let WIDTH = 1183; // these are necessary since buttons are placed relative to the window
+
 // Game setup
 function setup() {
   
-  createCanvas(1183, 585);
+  var cvn = createCanvas(WIDTH, HEIGHT);
+  cvn.parent('canvas');
   instruction = 0;
   obstaclesRate = 0.5;
   flakesRate = 0.3;
@@ -39,15 +43,20 @@ function setup() {
   console.log("height is: " + 585);
 
   startButton = createButton('Start');
-  startButton.position(520, 585/2);
+  startButton.parent('canvas');
+  startButton.position(520, 545/2 - HEIGHT, 'relative');
   startButton.size(100, 50);
-  startButton.mousePressed(startGame);//
+  startButton.mousePressed(startGame);
 
   startButtonInstructions = createButton('Start');
+  startButtonInstructions.parent('canvas');
+  startButtonInstructions.position(560, 585/1.5 - HEIGHT, 'relative');
+  startButtonInstructions.size(100, 50);
   startButtonInstructions.hide();
   
   instructionsButton = createButton('Instructions');
-  instructionsButton.position(520, 350);
+  instructionsButton.parent('canvas');
+  instructionsButton.position(420, 330 - HEIGHT, 'relative');
   instructionsButton.size(100, 50);
   instructionsButton.mousePressed(instructions);
 
@@ -117,7 +126,6 @@ function instructions() {
   startButton.hide();
 
   startButtonInstructions.show();
-  startButtonInstructions.position(1183/2.2, 585/1.75);
   startButtonInstructions.mousePressed(startGame);//
 
   //instruction button with width and heigth according to the window
@@ -360,10 +368,12 @@ function loseScreen() {
   drawingContext.filter = 'blur(0px)';
   if(!isRestart) {
     restartButton = createButton('Restart');
+    restartButton.parent('canvas');
     isRestart = true;
   }
     
-  restartButton.position(1183/2.2, 585/2);
+  restartButton.position(1183/2.2, 585/2 - HEIGHT, 'relative');
+  restartButton.size(100, 50);
   restartButton.mousePressed(restart);
   ghostTimer = 0;
   blurTimer = 0;

@@ -2,12 +2,12 @@ html, body {
   margin: 15px;
   padding: 0;
   display: flex;
-
   justify-content: center;
 
   align-items: center;
 }
 
-canvas {
-  display: block;
+#canvas {
+  width: 1183px;
+  height: 585px;
 }
