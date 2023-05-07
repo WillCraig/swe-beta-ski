@@ -1,7 +1,13 @@
 html, body {
-  margin: 0;
+  margin: 15px;
   padding: 0;
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
 }
+
 canvas {
   display: block;
 }
