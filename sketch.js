@@ -39,7 +39,7 @@ function setup() {
   console.log("height is: " + 585);
 
   startButton = createButton('Start');
-  startButton.position(520, 585/2);
+  startButton.position(505, 585/2);
   startButton.size(100, 50);
   startButton.mousePressed(startGame);//
 
@@ -47,7 +47,7 @@ function setup() {
   startButtonInstructions.hide();
   
   instructionsButton = createButton('Instructions');
-  instructionsButton.position(520, 350);
+  instructionsButton.position(505, 350);
   instructionsButton.size(100, 50);
   instructionsButton.mousePressed(instructions);
 
@@ -97,7 +97,8 @@ function restart() {
 function startMenu() {
   // the menu for the start and instructions button
   background(50, 55, 100);
-
+  textSize(50);
+  text('Haunted Hill', 427, 130);
   textSize(20);
   fill(255, 255, 255).textSize(30);
   text('Press the start button to begin the game', 320, 230);
@@ -109,15 +110,16 @@ function instructions() {
   // instructions page
   instruction = 4;
   background(50, 55, 100);
-  textSize(15);
+  textSize(20);
   fill(255, 255, 255);
-  text('Move the object using the left and right arrows to avoid obstacles', 1183/3, 585/3.7);
-  text('Press the spacebar to pause the game', 1183/3 + 70, 585/3.7 + 40);
+  text('Move the object using the left and right arrows to avoid obstacles', 380-35, 150);
+  text('Press the spacebar to pause the game', 380 + 55, 150 + 40);
   instructionsButton.hide();
   startButton.hide();
 
   startButtonInstructions.show();
-  startButtonInstructions.position(1183/2.2, 585/1.75);
+  startButtonInstructions.position(1183/2.2, 585/1.75+30);
+  startButtonInstructions.size(100, 50);
   startButtonInstructions.mousePressed(startGame);//
 
   //instruction button with width and heigth according to the window
@@ -352,11 +354,14 @@ function loseScreen() {
   background(50, 55, 100);
   noStroke();
   fill(255, 255, 255);
-  textSize(60);
+  
 
   scoreToShow = getHighestScore(previousScores)
-  text("High Score: " + scoreToShow, 1183/3, 585/2.3)
-  text("Game Over", 1183/3, 585/3.3);
+  text("Game Over!", 440, 200);
+  textSize(40);
+  text("High Score: " + scoreToShow, 470, 250)
+  
+  textSize(60);
   drawingContext.filter = 'blur(0px)';
   if(!isRestart) {
     restartButton = createButton('Restart');
@@ -364,6 +369,7 @@ function loseScreen() {
   }
     
   restartButton.position(1183/2.2, 585/2);
+  restartButton.size(100, 50);
   restartButton.mousePressed(restart);
   ghostTimer = 0;
   blurTimer = 0;
@@ -378,8 +384,8 @@ function ghostScreen(){
     noStroke();
     fill(255, 255, 255);
     textSize(30);
-    text("Ghost mode on! Can you beat it?", 80,200);
-    image(ghost, 200, 200);
+    text("Ghost mode on! Can you beat it?", 430, 260);
+    image(ghost, 630, 360);
     ghost.resize(400, 0);
 
     if(ghostTimer>120){
