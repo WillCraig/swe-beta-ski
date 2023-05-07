@@ -39,7 +39,7 @@ function setup() {
   console.log("height is: " + 585);
 
   startButton = createButton('Start');
-  startButton.position(520, 585/2);
+  startButton.position(505, 585/2);
   startButton.size(100, 50);
   startButton.mousePressed(startGame);//
 
@@ -47,7 +47,7 @@ function setup() {
   startButtonInstructions.hide();
   
   instructionsButton = createButton('Instructions');
-  instructionsButton.position(520, 350);
+  instructionsButton.position(505, 350);
   instructionsButton.size(100, 50);
   instructionsButton.mousePressed(instructions);
 
@@ -97,7 +97,8 @@ function restart() {
 function startMenu() {
   // the menu for the start and instructions button
   background(50, 55, 100);
-
+  textSize(50);
+  text('Haunted Hill', 427, 130);
   textSize(20);
   fill(255, 255, 255).textSize(30);
   text('Press the start button to begin the game', 320, 230);
