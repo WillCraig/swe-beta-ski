@@ -188,7 +188,7 @@ function draw() {
   
       if(blurTimer>60 && blurTimer<100){
         if(ghostTimer>0){ 
-          drawingContext.filter = 'blur(12px)';
+          //drawingContext.filter = 'blur(12px)';
           blureff = true;
           flakesRate = 0.05;
         }else{ // display ghost mode screen
@@ -199,14 +199,17 @@ function draw() {
   
       if(blurTimer>100){
         blurTimer = -100;
-        drawingContext.filter = 'blur(0px)';
+        //drawingContext.filter = 'blur(0px)';
         ghostTimer = 0;
-        blureff = true; // can be changed to false to bring blur effect after ghost mode (but causes lagging)
+        blureff = false; // can be changed to false to bring blur effect after ghost mode (but causes lagging)
         snowflakes = [];
       }
       t = frameCount / 60; // update time
   
-      if(blureff == false){
+      if (blureff) {
+        //drawingContext.filter = 'blur(0px)'; // works on all browsers except safari
+        drawingContext._blurRect(0, 0, 1183, 585, 1, 2)
+      } else {
         showSnowEffect();
       }
   
