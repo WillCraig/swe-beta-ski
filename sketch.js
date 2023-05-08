@@ -206,13 +206,9 @@ function draw() {
       }
       t = frameCount / 60; // update time
   
-      if (blureff) {
-        //drawingContext.filter = 'blur(0px)'; // works on all browsers except safari
-        drawingContext._blurRect(0, 0, 1183, 585, 1, 2)
-      } else {
+      if (!blureff) {
         showSnowEffect();
       }
-  
   
       // dimensions of rect (which is our sprite for now)
       image(player, w, height-60, 30, 30);
@@ -285,8 +281,11 @@ function draw() {
       ghostScreen();
     }
   }
+
+  if (blureff) {
+    drawingContext._blurRect(0, 0, 1183, 585, 0.25, 3); // it must come down here to blur sprites
+  }
   
- 
 }
 
 function showSnowEffect(){
