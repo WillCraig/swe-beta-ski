@@ -272,7 +272,7 @@ function draw() {
   
 
       if (blureff && instruction==1) {
-        drawingContext._blurRect(0, 0, 1183, 585); // it must come down here to blur sprites
+        drawingContext._blurRect(0, 0, 1183, 585, 0, 1.25); // it must come down here to blur sprites
       }
 
       Score();
