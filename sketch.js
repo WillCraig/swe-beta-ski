@@ -181,9 +181,7 @@ function draw() {
       // start the game
       blurTimer += 0.1;
       background(220);
-      Score();
-      line((1183/3), 0, (1183/3), height);
-      line(((1183 * 2)/3), 0,  (((1183*2)/3)), height);
+      
       stroke(126);
   
       if(blurTimer>60 && blurTimer<100){
@@ -272,6 +270,14 @@ function draw() {
         }
       }
   
+
+      if (blureff && instruction==1) {
+        drawingContext._blurRect(0, 0, 1183, 585); // it must come down here to blur sprites
+      }
+
+      Score();
+      line((1183/3), 0, (1183/3), height);
+      line(((1183 * 2)/3), 0,  (((1183*2)/3)), height);
     }
     else if(instruction==3) {
       loseScreen();
@@ -281,11 +287,6 @@ function draw() {
       ghostScreen();
     }
   }
-
-  if (blureff) {
-    drawingContext._blurRect(0, 0, 1183, 585, 0.25, 3); // it must come down here to blur sprites
-  }
-  
 }
 
 function showSnowEffect(){
